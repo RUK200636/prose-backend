@@ -1,0 +1,9 @@
+POST http://api.ruk970t0.beget.tech/register
+Content-Type: application/json
+
+{
+    "name": "Test Final",
+    "email": "testfinal@test.ru",
+    "password": "123456",
+    "phone": "+79001234567"
+}
