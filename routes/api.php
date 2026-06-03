@@ -16,9 +16,15 @@ use Illuminate\Support\Facades\DB;
 Route::get('/test-db', function () {
     try {
         $pdo = DB::connection()->getPdo();
-        return 'Connected to: ' . $pdo->getAttribute(PDO::ATTR_DRIVER_NAME);
+        $host = config('database.connections.mysql.host');
+        $dbName = DB::connection()->getDatabaseName();
+        return response()->json([
+            'driver' => $pdo->getAttribute(PDO::ATTR_DRIVER_NAME),
+            'host' => $host,
+            'database' => $dbName
+        ]);
     } catch (\Exception $e) {
-        return 'Error: ' . $e->getMessage();
+        return response()->json(['error' => $e->getMessage()], 500);
     }
 });
 
