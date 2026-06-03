@@ -22,6 +22,25 @@ Route::get('/test-db', function () {
     }
 });
 
+// ДИАГНОСТИЧЕСКИЙ МАРШРУТ (публичный) – показывает имя БД и хост
+Route::get('/db-check', function () {
+    try {
+        $dbName = DB::connection()->getDatabaseName();
+        $host = config('database.connections.mysql.host');
+        return response()->json([
+            'status' => 'ok',
+            'database' => $dbName,
+            'host' => $host,
+            'driver' => DB::connection()->getDriverName()
+        ]);
+    } catch (\Exception $e) {
+        return response()->json([
+            'status' => 'error',
+            'message' => $e->getMessage()
+        ]);
+    }
+});
+
 // Публичные маршруты (не требуют авторизации)
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
